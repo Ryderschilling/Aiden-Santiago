@@ -117,6 +117,21 @@ Video
 </div>
 </section>
 
+<section class="record" aria-labelledby="rec">
+<div class="wrap record__in">
+<p class="kicker">The record</p>
+<h2 class="h2" id="rec">Twenty-one closings on the Emerald Coast</h2>
+<div class="record__grid">
+<div class="rstat"><b data-count="16901616" data-fmt="usdM">$16.9M</b><span>Sold volume</span></div>
+<div class="rstat"><b data-count="21" data-fmt="int">21</b><span>Homes closed</span></div>
+<div class="rstat"><b data-count="889559" data-fmt="usdK">$890K</b><span>Average sale price</span></div>
+<div class="rstat"><b data-count="2400000" data-fmt="usdM">$2.4M</b><span>Highest sale</span></div>
+</div>
+<!-- TODO Aiden: set data-since to the real date/time of the most recent closing, and the address beside it. -->
+<p class="record__live"><span class="record__dot" aria-hidden="true"></span><span class="nw">Last closing <b data-since="2026-08-18T15:30:00-05:00">&ndash;</b> ago</span> <span class="nw">&middot; 3558 Preserve Lane, Miramar Beach</span></p>
+</div>
+</section>
+
 <section class="sec" aria-labelledby="meet">
 <div class="wrap about-split">
 <div class="about-split__media" data-rv>
@@ -170,19 +185,27 @@ Video
 </div>
 </section>
 
-<section class="valband" aria-labelledby="val">
-<div class="valband__media"><img src="/assets/img/balcony-sunset-beach.jpg" alt="" loading="lazy"></div>
-<div class="wrap valband__body">
-<p class="kicker">Home Valuation</p>
-<h2 class="h2" id="val">How much is your home worth?</h2>
-<ul class="vbullets">
-<li>Instant property valuation</li>
-<li>Expert advice</li>
-<li>Sell for more</li>
-</ul>
-<a class="btn btn--inv-solid" href="/home-valuation/">Get a free home valuation</a>
+<section class="winsec" aria-labelledby="win">
+<div class="winsec__tall">
+<div class="winsec__pin">
+<span class="winsec__edge l" aria-hidden="true">Compass</span>
+<span class="winsec__edge r" aria-hidden="true">Santa Rosa Beach, FL</span>
+<div class="winsec__win" data-win>
+<video id="win-video" muted loop playsinline preload="none" poster="/assets/img/estate-sunset-pool.jpg" aria-hidden="true">
+<source src="/assets/video/estate.mp4" type="video/mp4">
+</video>
+<span class="winsec__scrim" aria-hidden="true"></span>
+</div>
+<div class="winsec__body" data-win-body>
+<p class="kicker">The portfolio</p>
+<h2 class="h2" id="win">Coastal properties, handled quietly</h2>
+<p>From gulf-front rebuilds to golf-course estates, every listing gets the same treatment: honest pricing, real preparation, and a plan that starts long before the sign goes in the yard.</p>
+<a class="btn btn--inv-solid" href="/portfolio/">View the portfolio</a>
+</div>
+</div>
 </div>
 </section>
+
 
 <section class="nbrun" aria-labelledby="nb" data-nbrun>
 <div class="nbrun__track">
@@ -254,6 +277,20 @@ Video
 </div>
 </section>
 
+<section class="valband" aria-labelledby="val">
+<div class="valband__media"><img src="/assets/img/balcony-sunset-beach.jpg" alt="" loading="lazy"></div>
+<div class="wrap valband__body">
+<p class="kicker">Home Valuation</p>
+<h2 class="h2" id="val">How much is your home worth?</h2>
+<ul class="vbullets">
+<li>Instant property valuation</li>
+<li>Expert advice</li>
+<li>Sell for more</li>
+</ul>
+<a class="btn btn--inv-solid" href="/home-valuation/">Get a free home valuation</a>
+</div>
+</section>
+
 <section class="sec--tight band" aria-labelledby="news">
 <div class="wrap news">
 <p class="kicker">Stay in the loop</p>
@@ -289,21 +326,73 @@ Video
 </div>
 </section>
 
-<section class="sec--tight band" aria-labelledby="ig">
+
+<!-- Reels rail. Clips in /assets/video/reels/ are PLACEHOLDERS cut from the two existing videos.
+     Replace r1..r8.mp4 with Aiden's real Instagram and Facebook reels, 9:16, muted, 5 seconds or shorter.
+     They play ONCE per hover/centre, no loop: that is what keeps SC 2.2.2 satisfied with no pause button. -->
+<section class="sec--tight band reels" aria-labelledby="ig">
 <div class="wrap center" style="margin-bottom:26px">
-<p class="kicker">Follow Me on Instagram</p>
+<p class="kicker">Follow me on Instagram</p>
 <h2 class="h3" id="ig" style="margin-top:10px">@aiden_santiago</h2>
 </div>
-<div class="igstrip">
-<a href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Aiden Santiago on Instagram"><img src="/assets/img/walkover-dunes.jpg" alt="Dune walkover to the beach" loading="lazy"></a>
-<a href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Aiden Santiago on Instagram"><img src="/assets/img/white-villa-courtyard.jpg" alt="White villa courtyard with palms" loading="lazy"></a>
-<a href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Aiden Santiago on Instagram"><img src="/assets/img/sunset-rooftop-pool.jpg" alt="Rooftop pool overlooking the Gulf at sunset" loading="lazy"></a>
-<a href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Aiden Santiago on Instagram"><img src="/assets/img/golf-course-green.jpg" alt="Golf course green beside the water" loading="lazy"></a>
-<a href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Aiden Santiago on Instagram"><img src="/assets/img/interior-fireplace.jpg" alt="Living room with stone fireplace" loading="lazy"></a>
-<a href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Aiden Santiago on Instagram"><img src="/assets/img/gulf-front-sunset-row.jpg" alt="Row of gulf-front homes at sunset" loading="lazy"></a>
+<div class="reels__rail" id="reels-rail" data-reels tabindex="0" aria-label="Recent reels, scroll sideways">
+<a class="rcard" href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Just listed on 30A, Grayton Beach. Watch on Instagram">
+<img class="rcard__poster" src="/assets/img/gulf-front-sunset-row.jpg" alt="Row of gulf-front homes at sunset" loading="lazy">
+<video data-src="/assets/video/reels/r1.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+<span class="rcard__num" aria-hidden="true">01</span>
+<span class="rcard__cap" aria-hidden="true"><b>Just listed on 30A</b>Grayton Beach</span>
+</a>
+<a class="rcard" href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Inside a $2.4M estate, Miramar Beach. Watch on Instagram">
+<img class="rcard__poster" src="/assets/img/estate-sunset-pool.jpg" alt="Estate pool at sunset" loading="lazy">
+<video data-src="/assets/video/reels/r2.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+<span class="rcard__num" aria-hidden="true">02</span>
+<span class="rcard__cap" aria-hidden="true"><b>Inside a $2.4M estate</b>Miramar Beach</span>
+</a>
+<a class="rcard" href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Why buyers pick Inlet, Inlet Beach. Watch on Instagram">
+<img class="rcard__poster" src="/assets/img/emerald-coast-aerial.jpg" alt="Aerial of the Emerald Coast shoreline" loading="lazy">
+<video data-src="/assets/video/reels/r3.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+<span class="rcard__num" aria-hidden="true">03</span>
+<span class="rcard__cap" aria-hidden="true"><b>Why buyers pick Inlet</b>Inlet Beach</span>
+</a>
+<a class="rcard" href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Sold in nine days, Santa Rosa Beach. Watch on Instagram">
+<img class="rcard__poster" src="/assets/img/glass-mansion-pool.jpg" alt="Modern glass home with a pool" loading="lazy">
+<video data-src="/assets/video/reels/r4.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+<span class="rcard__num" aria-hidden="true">04</span>
+<span class="rcard__cap" aria-hidden="true"><b>Sold in nine days</b>Santa Rosa Beach</span>
+</a>
+<a class="rcard" href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Sunset from the balcony, Seagrove. Watch on Instagram">
+<img class="rcard__poster" src="/assets/img/balcony-sunset-beach.jpg" alt="Balcony overlooking the beach at sunset" loading="lazy">
+<video data-src="/assets/video/reels/r5.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+<span class="rcard__num" aria-hidden="true">05</span>
+<span class="rcard__cap" aria-hidden="true"><b>Sunset from the balcony</b>Seagrove</span>
+</a>
+<a class="rcard" href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Staging pays for itself, Compass Concierge. Watch on Instagram">
+<img class="rcard__poster" src="/assets/img/interior-fireplace.jpg" alt="Living room with a stone fireplace" loading="lazy">
+<video data-src="/assets/video/reels/r6.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+<span class="rcard__num" aria-hidden="true">06</span>
+<span class="rcard__cap" aria-hidden="true"><b>Staging pays for itself</b>Compass Concierge</span>
+</a>
+<a class="rcard" href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="The walkover test, Blue Mountain. Watch on Instagram">
+<img class="rcard__poster" src="/assets/img/beach-walkover-cottage.jpg" alt="Dune walkover beside a coastal cottage" loading="lazy">
+<video data-src="/assets/video/reels/r7.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+<span class="rcard__num" aria-hidden="true">07</span>
+<span class="rcard__cap" aria-hidden="true"><b>The walkover test</b>Blue Mountain</span>
+</a>
+<a class="rcard" href="https://www.instagram.com/aiden_santiago" rel="noopener" aria-label="Golf, gulf, six minutes, Sandestin. Watch on Instagram">
+<img class="rcard__poster" src="/assets/img/golf-coast-aerial.jpg" alt="Aerial of a coastal golf course" loading="lazy">
+<video data-src="/assets/video/reels/r8.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+<span class="rcard__num" aria-hidden="true">08</span>
+<span class="rcard__cap" aria-hidden="true"><b>Golf, gulf, six minutes</b>Sandestin</span>
+</a>
 </div>
-<div class="wrap center" style="margin-top:26px">
+<div class="wrap reels__foot">
 <a class="tlink" href="https://www.instagram.com/aiden_santiago" rel="noopener">Follow Aiden</a>
+<div class="fsoc fsoc--light">
+<a href="https://www.facebook.com/p/Aiden-Santiago-Real-Estate-Professional-100083073045133/" rel="noopener" target="_blank" aria-label="Aiden Santiago on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.4 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.63c-.29-.04-1.27-.13-2.42-.13-2.4 0-4.03 1.46-4.03 4.14V9.9H7.44V13h2.7v8z"/></svg></a>
+<a href="https://www.instagram.com/aiden_santiago/" rel="noopener" target="_blank" aria-label="Aiden Santiago on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.3" y="3.3" width="17.4" height="17.4" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.9" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="16.9" cy="7.1" r="1.15"/></svg></a>
+<a href="https://www.linkedin.com/in/aiden-santiago-573778230/" rel="noopener" target="_blank" aria-label="Aiden Santiago on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.94 5.5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0zM3.32 8.9h3.24V21H3.32zM9.62 8.9h3.1v1.65h.05c.44-.83 1.5-1.7 3.1-1.7 3.31 0 3.92 2.17 3.92 5V21h-3.24v-5.44c0-1.3-.02-2.96-1.8-2.96-1.81 0-2.09 1.41-2.09 2.87V21H9.62z"/></svg></a>
+<a href="https://www.zillow.com/profile/aiden%20santiago" rel="noopener" target="_blank" aria-label="Aiden Santiago on Zillow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.3 2.55 10.65l1.32 1.7L12 6.02l8.13 6.33 1.32-1.7z"/><path d="M12 8.85 5.95 13.6V20.7h3.93v-4.35h4.24v4.35h3.93v-7.1z"/></svg></a>
+</div>
 </div>
 </section>
 

@@ -726,3 +726,178 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
   .news button{width:100%}
   .hero__vidbtn{right:auto;left:var(--gutter)}
 }
+
+/* ============================================================
+   08-31 additions: the record band, the window section, the reels rail
+   ============================================================ */
+
+/* ---------- The record: counters + a live line ---------- */
+.record{position:relative;background:var(--bed);color:var(--on-bed);overflow:clip}
+.record__in{padding-block:clamp(66px,8vw,112px)}
+.record .kicker{color:var(--on-bed-mut)}
+.record h2{color:var(--on-bed);max-width:20ch}
+.record__grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,2.6vw,44px);
+  margin-top:clamp(34px,4vw,58px);
+}
+.rstat{border-top:1px solid var(--line-inv);padding-top:clamp(16px,1.6vw,22px)}
+.rstat b{
+  display:block;font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.9rem,4.2vw,3.5rem);line-height:1;letter-spacing:.005em;
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
+}
+.rstat span{
+  display:block;margin-top:clamp(10px,1.1vw,15px);
+  font-size:.6875rem;letter-spacing:.2em;text-transform:uppercase;color:var(--on-bed-mut);
+}
+.record__live{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-top:clamp(34px,4vw,54px);padding-top:clamp(22px,2.4vw,30px);
+  border-top:1px solid var(--line-inv);
+  font-size:.8125rem;letter-spacing:.06em;color:var(--on-bed-mut);
+}
+.record__dot{
+  width:8px;height:8px;border-radius:50%;background:var(--on-bed);flex:0 0 auto;
+  animation:recpulse 2.4s var(--ease) infinite;
+}
+.record__live b{color:var(--on-bed);font-weight:500;font-variant-numeric:tabular-nums}
+.record__live .nw{white-space:nowrap}
+@keyframes recpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.72)}}
+@media(prefers-reduced-motion:reduce){.record__dot{animation:none}}
+@media(max-width:860px){.record__grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.record__grid{grid-template-columns:1fr}}
+
+/* ---------- Window section: framed video widens to full bleed ---------- */
+.winsec{position:relative;background:var(--paper)}
+.winsec__tall{height:300vh}
+.winsec__pin{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--paper)}
+.winsec__win{
+  position:absolute;inset:0;will-change:clip-path;
+  clip-path:inset(9% 30% round 2px);
+}
+.winsec__win video,.winsec__win img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.winsec__scrim{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(142% 84% at 50% 100%, rgba(8,10,12,.88) 0%, rgba(8,10,12,.66) 44%, rgba(8,10,12,0) 82%),
+    linear-gradient(180deg,rgba(8,10,12,.34) 0%,rgba(8,10,12,.14) 34%,rgba(8,10,12,.56) 74%,rgba(8,10,12,.86) 100%);
+}
+.winsec__edge{
+  position:absolute;transition:opacity .3s linear;top:50%;transform:translateY(-50%);z-index:2;
+  font-size:.6875rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);
+}
+.winsec__edge.l{left:clamp(16px,3vw,44px)}
+.winsec__edge.r{right:clamp(16px,3vw,44px)}
+.winsec__body{
+  position:absolute;left:0;right:0;bottom:0;z-index:3;
+  padding:0 var(--gutter) clamp(52px,8vh,104px);
+  text-align:center;color:var(--on-bed);
+  opacity:0;transform:translateY(26px);
+}
+.winsec__body .kicker{color:var(--on-bed)}
+.winsec__body h2{color:var(--on-bed);margin-top:12px}
+.winsec__body p{margin:16px auto 0;max-width:48ch;color:var(--on-bed)}
+.winsec__body .btn{margin-top:clamp(22px,2.6vw,32px)}
+@media(prefers-reduced-motion:reduce){
+  .winsec__tall{height:auto}
+  .winsec__pin{position:relative;height:auto;min-height:70svh}
+  .winsec__win{clip-path:none;position:relative;height:70svh}
+  .winsec__body{position:relative;opacity:1;transform:none;background:var(--bed);padding-block:clamp(34px,5vw,56px)}
+  .winsec__edge{display:none}
+}
+
+/* ---------- Reels rail: one card lives at a time ---------- */
+.reels{--rcard:clamp(206px,19vw,282px)}
+.reels__rail{
+  display:flex;gap:clamp(12px,1.5vw,20px);
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;
+  scroll-padding-inline:var(--gutter);
+  padding-block:8px clamp(22px,2.6vw,34px);
+  padding-inline:var(--gutter);
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.reels__rail::-webkit-scrollbar{display:none}
+.rcard{
+  position:relative;flex:0 0 auto;display:block;text-decoration:none;
+  width:var(--rcard);aspect-ratio:9/16;overflow:hidden;background:#0c0e10;
+  scroll-snap-align:center;
+  transform:scale(.915);filter:saturate(.42) brightness(.58);
+  transition:transform .55s var(--ease),filter .55s var(--ease);
+}
+.rcard.is-live{transform:scale(1);filter:none}
+.rcard__poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rcard video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .45s var(--ease);
+}
+.rcard.is-live video.is-ready{opacity:1}
+.rcard__cap{
+  position:absolute;inset:auto 0 0 0;z-index:2;padding:36px 16px 17px;color:#fff;
+  background:linear-gradient(180deg,rgba(8,10,12,0) 0%,rgba(8,10,12,.34) 22%,rgba(8,10,12,.80) 52%,rgba(8,10,12,.94) 100%);
+  font-size:.75rem;letter-spacing:.04em;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .45s var(--ease),transform .45s var(--ease);
+}
+.rcard__cap b{display:block;font-family:var(--font-display);font-size:.9375rem;letter-spacing:.02em;margin-bottom:2px}
+.rcard.is-live .rcard__cap{opacity:1;transform:none}
+.rcard__num{
+  position:absolute;top:0;left:0;right:0;z-index:2;color:#fff;
+  padding:13px 16px 30px;
+  font-size:.625rem;letter-spacing:.2em;
+  background:linear-gradient(180deg,rgba(8,10,12,.82) 0%,rgba(8,10,12,.74) 44%,rgba(8,10,12,0) 100%);
+}
+.rcard:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.reels__foot{display:flex;flex-direction:column;align-items:center;gap:clamp(20px,2.4vw,30px)}
+.reels__foot .tlink{
+  font-size:clamp(.9375rem,1.6vw,1.1875rem);letter-spacing:.24em;
+  min-height:0;padding-bottom:10px;
+}
+.fsoc--light{margin-top:0;justify-content:center;gap:12px}
+.fsoc--light a{border-color:var(--line);color:var(--ink)}
+.fsoc--light a:hover,.fsoc--light a:focus-visible{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+@media(prefers-reduced-motion:reduce){
+  .rcard{transform:none;filter:none}
+  .rcard__cap{opacity:1;transform:none}
+}
+
+/* ---------- Search page: the big rounded search bar ---------- */
+.hsearch-head .lede{max-width:70ch}
+.hsearch{
+  display:flex;align-items:center;
+  width:min(980px,100%);
+  margin:clamp(4px,1vw,12px) auto clamp(24px,3vw,38px);
+  border:2px solid var(--ink);border-radius:999px;background:var(--paper);
+  padding:5px 5px 5px 0;
+  transition:box-shadow .35s var(--ease);
+}
+.hsearch:focus-within{box-shadow:0 0 0 4px rgba(21,23,26,.13)}
+.hsearch__field{position:relative;flex:1;display:flex;align-items:center;min-width:0}
+.hsearch__field svg{position:absolute;left:27px;width:20px;height:20px;color:var(--ink);pointer-events:none}
+.hsearch input{
+  font-family:var(--font-sans);font-weight:500;
+  font-size:clamp(1rem,1.4vw,1.125rem);
+  width:100%;border:0;background:transparent;color:var(--ink);
+  padding:0 18px 0 60px;min-height:62px;outline:none;
+}
+.hsearch input::placeholder{color:var(--ink-3);font-weight:400}
+.hsearch input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.hsearch button{
+  flex:0 0 auto;background:var(--ink);color:var(--paper);border:0;border-radius:999px;
+  padding:0 clamp(28px,3.2vw,42px);min-height:62px;
+  font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  transition:background .35s var(--ease);
+}
+.hsearch button:hover{background:var(--ink-2)}
+.hsearch button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.filters--center{justify-content:center;gap:10px;margin-bottom:clamp(28px,3.4vw,40px)}
+.filters--center button{border-radius:999px;padding:12px 27px}
+.filters--center button + button{margin-left:0}
+.result-count--center{text-align:center}
+@media(max-width:620px){
+  .hsearch{flex-direction:column;border-radius:30px;padding:8px;gap:8px}
+  .hsearch__field{width:100%}
+  .hsearch__field svg{left:20px}
+  .hsearch input{padding:0 16px 0 50px;min-height:52px}
+  .hsearch button{width:100%;min-height:52px}
+}

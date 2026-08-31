@@ -84,26 +84,26 @@ r.classList.add("menu-retract");}catch(e){}})();</script>
 <main id="main" tabindex="-1">
 <section class="sec" style="padding-top:calc(var(--headerH) + clamp(36px,5vw,64px))">
 <div class="wrap">
-<div class="sec-head">
+<div class="sec-head center hsearch-head">
 <p class="kicker">Search Homes</p>
 <h1 class="h1">Find your place on the coast</h1>
 <p class="lede">Searching Aiden's own listings and closed sales. Ask him directly for the full MLS.</p>
 </div>
-<form class="searchbar" role="search" onsubmit="return false">
-<span class="search__field">
-<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+<form class="hsearch" role="search" onsubmit="return false">
+<span class="hsearch__field">
+<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
 <label class="vh" for="q">Search by address, city, or neighborhood</label>
 <input id="q" type="search" placeholder="Search by address, city, or neighborhood" autocomplete="off">
 </span>
 <button type="submit">Search</button>
 </form>
-<div class="filters" role="group" aria-label="Filter by status">
+<div class="filters filters--center" role="group" aria-label="Filter by status">
 <button type="button" data-filter="all" aria-pressed="true">All</button>
 <button type="button" data-filter="For Sale" aria-pressed="false">For Sale</button>
 <button type="button" data-filter="Pending" aria-pressed="false">Pending</button>
 <button type="button" data-filter="Sold" aria-pressed="false">Sold</button>
 </div>
-<p class="result-count" id="rcount" role="status" aria-live="polite"></p>
+<p class="result-count result-count--center" id="rcount" role="status" aria-live="polite"></p>
 <div class="pgrid pgrid--3" id="results"></div>
 <p class="empty" id="empty" hidden>No results found. Try another search.</p>
 </div>
