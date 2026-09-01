@@ -137,10 +137,19 @@
   }
 
   /* ---------- Reveals ---------- */
-  var RV = '.sec-head > *, .about-split__body > *, .about-split__media, .pcard, .nbgrid .nbcard, .area-grid .nbcard, .trio a, .pillar, .statrow .s, .steps li, .form, .contact-info > *, .footer .fsoc a, .cta__body > *, .valband__body > *, .news > *, .calc > *, .rstat, .record__live, .record__in > .kicker, .record__in > h2';
+  var RV = '.sec-head > *, .about-split__body > *, .about-split__media, .pcard, .nbgrid .nbcard, .area-grid .nbcard, .trio a, .pillar, .statrow .s, .steps li, .form, .contact-info > *, .footer .fsoc a, .reels__foot .tlink, .reels__foot .fsoc a, .cta__body > *, .valband__body > *, .news > *, .calc > *, .rstat, .record__live, .record__in > .kicker, .record__in > h2';
+  var entering = document.body.classList.contains('pg-enter');
+  var firstSec = entering ? $('main > section') : null;
+  var ownedByEntrance = function (el) {
+    if (!entering) return false;
+    if (el.closest('.phero')) return true;
+    if (firstSec && firstSec.contains(el) && (el.closest('.sec-head') || el.closest('.calc'))) return true;
+    return false;
+  };
   if (!reduced && 'IntersectionObserver' in window) {
     $$(RV).forEach(function (el) {
       if (getComputedStyle(el).position === 'sticky') return;
+      if (ownedByEntrance(el)) return;
       el.setAttribute('data-rv', '');
     });
     var io = new IntersectionObserver(function (en) {
@@ -149,6 +158,12 @@
     $$('[data-rv]').forEach(function (el) { io.observe(el); });
     document.addEventListener('focusin', function (e) {
       var t = e.target.closest('[data-rv]'); if (t) t.classList.add('in');
+    });
+    /* social bubbles float in slowly, then hand hover back its quick lift */
+    $$('.fsoc a').forEach(function (a) {
+      a.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'transform') a.classList.add('rv-done');
+      });
     });
   }
 
@@ -474,9 +489,20 @@
       var travel = winTall.offsetHeight - window.innerHeight;
       var p = travel > 0 ? Math.min(1, Math.max(0, -winTall.getBoundingClientRect().top / travel)) : 0;
       var e = Math.min(1, p / 0.8);
-      var sx = (window.innerWidth < 760 ? 13 : 30) * (1 - e);
-      var sy = 9 * (1 - e);
-      win.style.clipPath = 'inset(' + sy.toFixed(2) + '% ' + sx.toFixed(2) + '% round ' + (2 - 2 * e).toFixed(1) + 'px)';
+      var mob = window.innerWidth < 760;
+      var sx0 = mob ? 17 : 30;
+      var sy0 = 9;
+      if (mob) {
+        /* keep the opening frame a portrait card (~1:1.34) whatever the phone height */
+        var cardW = window.innerWidth * (1 - sx0 * 2 / 100);
+        sy0 = (1 - Math.min(0.86, cardW * 1.34 / window.innerHeight)) / 2 * 100;
+        if (sy0 < 6) sy0 = 6;
+      }
+      var sx = sx0 * (1 - e);
+      var sy = sy0 * (1 - e);
+      var rad = (mob ? 16 : 2) * (1 - e);
+      win.parentNode.style.setProperty('--winsy', sy.toFixed(2) + '%');
+      win.style.clipPath = 'inset(' + sy.toFixed(2) + '% ' + sx.toFixed(2) + '% round ' + rad.toFixed(1) + 'px)';
       var k = Math.min(1, Math.max(0, (p - 0.34) / 0.28));
       winEdges.forEach(function (n) { n.style.opacity = String(1 - Math.min(1, e * 1.6)); });
       winBody.style.opacity = String(k);
@@ -501,13 +527,23 @@
     }
   }
 
-  /* ---------- Reels rail: exactly one card is live, by hover, focus or centre ---------- */
+  /* ---------- Reels rail: one card live, tap a card for sound ---------- */
   var rail = $('[data-reels]');
   if (rail) {
     var rcards = $$('.rcard', rail);
-    var rHover = null, rCentre = null, rVisible = true, rLive = null;
+    var rPauseBtn = $('[data-reels-pause]');
+    var rHover = null, rCentre = null, rVisible = true, rLive = null, rLoud = null;
+    var rPaused = reduced;
+    var rMute = function (card) {
+      if (!card) return;
+      var v = $('video', card); if (v) v.muted = true;
+      var b = $('.rcard__hit', card); if (b) b.setAttribute('aria-pressed', 'false');
+      card.classList.remove('is-loud');
+      if (rLoud === card) rLoud = null;
+    };
     var rStop = function (card) {
       if (!card) return;
+      rMute(card);
       var v = $('video', card); if (v && !v.paused) v.pause();
     };
     var rStart = function (card) {
@@ -520,12 +556,22 @@
       var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
     };
     var rApply = function () {
-      var live = (rVisible && !reduced) ? (rHover || rCentre) : null;
-      rcards.forEach(function (c) { c.classList.toggle('is-live', c === (rHover || rCentre)); });
+      var want = rHover || rCentre;
+      var live = (rVisible && !rPaused) ? want : null;
+      rcards.forEach(function (c) { c.classList.toggle('is-live', c === want); });
       if (live === rLive) return;
       rStop(rLive);
       rLive = live;
       if (live) rStart(live);
+    };
+    var rSetPaused = function (v) {
+      rPaused = v;
+      if (rPauseBtn) {
+        rPauseBtn.setAttribute('aria-pressed', String(v));
+        rPauseBtn.setAttribute('aria-label', v ? 'Play the reels' : 'Pause the reels');
+        rPauseBtn.classList.toggle('is-paused', v);
+      }
+      rApply();
     };
     var rFindCentre = function () {
       var rr = rail.getBoundingClientRect(), mid = rr.left + rr.width / 2, best = null, bd = Infinity;
@@ -541,20 +587,44 @@
       clearTimeout(rTimer); rTimer = setTimeout(rFindCentre, 70);
     }, { passive: true });
     rcards.forEach(function (c) {
+      var hit = $('.rcard__hit', c);
       c.addEventListener('mouseenter', function () { rHover = c; rApply(); });
       c.addEventListener('mouseleave', function () { if (rHover === c) { rHover = null; rApply(); } });
-      c.addEventListener('focus', function () {
+      c.addEventListener('focusin', function () {
+        c.classList.add('is-focus');
         rHover = c; rApply();
         if (c.scrollIntoView) c.scrollIntoView({ block: 'nearest', inline: 'center' });
       });
-      c.addEventListener('blur', function () { if (rHover === c) { rHover = null; rApply(); } });
+      c.addEventListener('focusout', function () {
+        c.classList.remove('is-focus');
+        if (rHover === c) { rHover = null; rApply(); }
+      });
+      /* a tap is a user gesture, so this is the only place sound may come on */
+      if (hit) hit.addEventListener('click', function () {
+        var v = $('video', c); if (!v) return;
+        var makeLoud = rLoud !== c;
+        if (rLoud && rLoud !== c) rMute(rLoud);
+        rHover = c;
+        if (rPaused) rSetPaused(false); else rApply();
+        if (makeLoud) {
+          v.muted = false;
+          rLoud = c;
+          c.classList.add('is-loud');
+          hit.setAttribute('aria-pressed', 'true');
+        } else {
+          rMute(c);
+        }
+        var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+      });
     });
+    if (rPauseBtn) rPauseBtn.addEventListener('click', function () { rSetPaused(!rPaused); });
     if ('IntersectionObserver' in window) {
       var rio = new IntersectionObserver(function (en) {
         en.forEach(function (e) { rVisible = e.isIntersecting; rApply(); });
       }, { threshold: 0.2 });
       rio.observe(rail);
     }
+    if (reduced) rSetPaused(true);
     rFindCentre();
     window.addEventListener('resize', rFindCentre);
   }

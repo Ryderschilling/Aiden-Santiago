@@ -33,6 +33,7 @@
   --font-display:'Marcellus','Georgia',serif;
   --font-sans:'Archivo','Helvetica Neue',Arial,sans-serif;
   --ease:cubic-bezier(.22,1,.36,1);
+  --ease-glide:cubic-bezier(.42,.04,.18,1);
   --gutter:clamp(20px,5vw,64px);
   --sec:clamp(72px,9vw,124px);
   --headerH:78px;
@@ -611,14 +612,26 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
   border:1px solid var(--line-inv);color:var(--on-bed);
   transition:background .5s var(--ease),color .5s var(--ease),border-color .5s var(--ease),transform .5s var(--ease),opacity .8s var(--ease);
 }
+/* slow float-up: start low and small, drift past, settle */
+.fsoc a[data-rv]{
+  opacity:0;transform:translateY(54px) scale(.84);will-change:transform,opacity;
+  transition:opacity 1.15s var(--ease),
+             transform 1.35s cubic-bezier(.19,1.18,.32,1),
+             background .5s var(--ease),color .5s var(--ease),border-color .5s var(--ease);
+}
+.fsoc a[data-rv].in{opacity:1;transform:none}
+/* once it has landed, hand hover back its quick lift */
+.fsoc a[data-rv].rv-done{
+  transition:background .5s var(--ease),color .5s var(--ease),border-color .5s var(--ease),transform .5s var(--ease),opacity .8s var(--ease);
+}
 .fsoc a svg{width:17px;height:17px;fill:currentColor;display:block}
 .fsoc a:hover,.fsoc a:focus-visible{background:var(--on-bed);border-color:var(--on-bed);color:var(--bed)}
 @media (hover:hover) and (pointer:fine){
   .fsoc a:hover{transform:translateY(-4px)}
 }
-.fsoc a[data-rv].in:nth-child(2){transition-delay:.09s}
-.fsoc a[data-rv].in:nth-child(3){transition-delay:.18s}
-.fsoc a[data-rv].in:nth-child(4){transition-delay:.27s}
+.fsoc a[data-rv].in:nth-child(2){transition-delay:.17s}
+.fsoc a[data-rv].in:nth-child(3){transition-delay:.34s}
+.fsoc a[data-rv].in:nth-child(4){transition-delay:.51s}
 .fsoc a[data-rv].in:hover,.fsoc a[data-rv].in:focus-visible{transition-delay:0s}
 
 /* live coast time */
@@ -713,7 +726,40 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
 @media (max-width:680px){
   .pgrid--2,.pgrid--3{grid-template-columns:1fr}
   .nbgrid,.area-grid{grid-template-columns:1fr}
-  .footer__top{grid-template-columns:1fr;gap:36px}
+  .footer__top{grid-template-columns:1fr;gap:30px;padding-block:clamp(42px,9vw,60px)}
+  .footer h2{margin-bottom:12px}
+
+  /* Explore: two columns of hairline rows. No hover on touch, so the index
+     number that normally slides in on hover is simply always visible. */
+  .footer .flist--explore{
+    display:grid;grid-template-columns:1fr 1fr;
+    column-gap:16px;row-gap:0;
+    border-bottom:1px solid var(--line-inv);
+  }
+  .footer .flist--explore li{border-top:1px solid var(--line-inv)}
+  .footer .flist--explore .flink{
+    display:flex;width:100%;align-items:baseline;gap:9px;
+    padding:12px 0;min-height:44px;font-size:.85rem;line-height:1.3;
+  }
+  .footer .flist--explore .flink .n{width:auto;opacity:1;overflow:visible;flex:0 0 auto}
+  .footer .flist--explore .flink .t{transform:none}
+
+  /* Areas: nine short names read better as chips than as nine more rows */
+  .footer .flist--areas{display:flex;flex-direction:row;flex-wrap:wrap;gap:8px}
+  .footer .flist--areas .flink{
+    display:inline-flex;align-items:center;min-height:36px;padding:0 14px;
+    border:1px solid var(--line-inv);border-radius:999px;
+    font-size:.82rem;line-height:1;
+  }
+  .footer .flist--areas .flink .n{display:none}
+  .footer .flist--areas .flink .t{transform:none}
+  .footer .flist--areas .flink:hover,.footer .flist--areas .flink:focus-visible{
+    background:var(--on-bed);border-color:var(--on-bed);color:var(--bed);
+  }
+
+  .footer__mark{padding-top:clamp(20px,3.4vw,30px)}
+  .footer__legal{padding-block:22px;gap:16px}
+  .footer__legal p{line-height:1.65}
   .f-row{grid-template-columns:1fr}
   .svc-list{columns:1}
   .search{flex-direction:column}
@@ -798,6 +844,15 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
 .winsec__body h2{color:var(--on-bed);margin-top:12px}
 .winsec__body p{margin:16px auto 0;max-width:48ch;color:var(--on-bed)}
 .winsec__body .btn{margin-top:clamp(22px,2.6vw,32px)}
+/* phones: the frame opens as a portrait card, so the labels sit above and below it */
+@media(max-width:759px){
+  .winsec__edge{
+    top:auto;bottom:auto;transform:none;left:0;right:0;text-align:center;
+    font-size:.625rem;letter-spacing:.16em;
+  }
+  .winsec__edge.l{left:0;right:0;top:calc(var(--winsy,29%) - 24px)}
+  .winsec__edge.r{left:0;right:0;bottom:calc(var(--winsy,29%) - 24px)}
+}
 @media(prefers-reduced-motion:reduce){
   .winsec__tall{height:auto}
   .winsec__pin{position:relative;height:auto;min-height:70svh}
@@ -819,7 +874,7 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
 }
 .reels__rail::-webkit-scrollbar{display:none}
 .rcard{
-  position:relative;flex:0 0 auto;display:block;text-decoration:none;
+  position:relative;flex:0 0 auto;display:block;margin:0;
   width:var(--rcard);aspect-ratio:9/16;overflow:hidden;background:#0c0e10;
   scroll-snap-align:center;
   transform:scale(.915);filter:saturate(.42) brightness(.58);
@@ -832,22 +887,47 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
   opacity:0;transition:opacity .45s var(--ease);
 }
 .rcard.is-live video.is-ready{opacity:1}
-.rcard__cap{
-  position:absolute;inset:auto 0 0 0;z-index:2;padding:36px 16px 17px;color:#fff;
-  background:linear-gradient(180deg,rgba(8,10,12,0) 0%,rgba(8,10,12,.34) 22%,rgba(8,10,12,.80) 52%,rgba(8,10,12,.94) 100%);
-  font-size:.75rem;letter-spacing:.04em;
-  opacity:0;transform:translateY(10px);
-  transition:opacity .45s var(--ease),transform .45s var(--ease);
+/* the whole card is the play/sound target; the IG link sits above it */
+.rcard__hit{
+  position:absolute;inset:0;z-index:3;
+  appearance:none;border:0;background:none;padding:0;margin:0;
+  cursor:pointer;color:#fff;
 }
-.rcard__cap b{display:block;font-family:var(--font-display);font-size:.9375rem;letter-spacing:.02em;margin-bottom:2px}
-.rcard.is-live .rcard__cap{opacity:1;transform:none}
+.rcard__snd,.rcard__ig{
+  position:absolute;bottom:12px;width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;background:rgba(8,10,12,.78);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .4s var(--ease),transform .4s var(--ease),background .3s var(--ease);
+}
+.rcard__snd{left:12px}
+.rcard__ig{right:12px;z-index:4}
+.rcard.is-live .rcard__snd,.rcard.is-live .rcard__ig,
+.rcard:focus-within .rcard__snd,.rcard:focus-within .rcard__ig{opacity:1;transform:none}
+.rcard__snd svg,.rcard__ig svg{width:17px;height:17px;fill:currentColor;display:block}
+.rcard__snd .i-loud,.rcard.is-loud .rcard__snd .i-muted{display:none}
+.rcard.is-loud .rcard__snd .i-loud{display:block}
+.rcard.is-loud .rcard__snd{background:var(--paper);color:var(--ink)}
+.rcard__ig:hover,.rcard__ig:focus-visible{background:var(--paper);color:var(--ink)}
 .rcard__num{
   position:absolute;top:0;left:0;right:0;z-index:2;color:#fff;
   padding:13px 16px 30px;
   font-size:.625rem;letter-spacing:.2em;
   background:linear-gradient(180deg,rgba(8,10,12,.82) 0%,rgba(8,10,12,.74) 44%,rgba(8,10,12,0) 100%);
 }
-.rcard:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.rcard:has(:focus-visible),.rcard.is-focus{outline:2px solid var(--ink);outline-offset:4px}
+.rcard__hit:focus-visible,.rcard__ig:focus-visible{outline:none}
+.reels__pause{
+  appearance:none;cursor:pointer;margin-top:16px;
+  display:inline-flex;align-items:center;gap:9px;
+  min-height:44px;padding:0 18px;border-radius:999px;
+  border:1px solid var(--line);background:none;color:var(--ink-2);
+  font-size:.625rem;letter-spacing:.2em;text-transform:uppercase;
+  transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease);
+}
+.reels__pause svg{width:9px;height:11px;display:block}
+.reels__pause .i-play,.reels__pause.is-paused .i-pause{display:none}
+.reels__pause.is-paused .i-play{display:block}
+.reels__pause:hover,.reels__pause:focus-visible{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .reels__foot{display:flex;flex-direction:column;align-items:center;gap:clamp(20px,2.4vw,30px)}
 .reels__foot .tlink{
   font-size:clamp(.9375rem,1.6vw,1.1875rem);letter-spacing:.24em;
@@ -858,21 +938,27 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
 .fsoc--light a:hover,.fsoc--light a:focus-visible{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 @media(prefers-reduced-motion:reduce){
   .rcard{transform:none;filter:none}
-  .rcard__cap{opacity:1;transform:none}
+  .rcard__snd,.rcard__ig{opacity:1;transform:none}
 }
 
 /* ---------- Search page: the big rounded search bar ---------- */
 .hsearch-head .lede{max-width:70ch}
 .hsearch{
+  position:relative;
   display:flex;align-items:center;
   width:min(980px,100%);
   margin:clamp(4px,1vw,12px) auto clamp(24px,3vw,38px);
-  border:2px solid var(--ink);border-radius:999px;background:var(--paper);
+  background:transparent;
   padding:5px 5px 5px 0;
-  transition:box-shadow .35s var(--ease);
 }
-.hsearch:focus-within{box-shadow:0 0 0 4px rgba(21,23,26,.13)}
-.hsearch__field{position:relative;flex:1;display:flex;align-items:center;min-width:0}
+.hsearch::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  border:2px solid var(--ink);border-radius:999px;background:var(--paper);
+  transition:box-shadow .35s var(--ease);
+  z-index:0;
+}
+.hsearch:focus-within::before{box-shadow:0 0 0 4px rgba(21,23,26,.13)}
+.hsearch__field{position:relative;z-index:1;flex:1;display:flex;align-items:center;min-width:0;overflow:hidden}
 .hsearch__field svg{position:absolute;left:27px;width:20px;height:20px;color:var(--ink);pointer-events:none}
 .hsearch input{
   font-family:var(--font-sans);font-weight:500;
@@ -883,6 +969,7 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
 .hsearch input::placeholder{color:var(--ink-3);font-weight:400}
 .hsearch input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
 .hsearch button{
+  position:relative;z-index:2;
   flex:0 0 auto;background:var(--ink);color:var(--paper);border:0;border-radius:999px;
   padding:0 clamp(28px,3.2vw,42px);min-height:62px;
   font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
@@ -895,9 +982,83 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
 .filters--center button + button{margin-left:0}
 .result-count--center{text-align:center}
 @media(max-width:620px){
-  .hsearch{flex-direction:column;border-radius:30px;padding:8px;gap:8px}
+  .hsearch{flex-direction:column;padding:8px;gap:8px}
+  .hsearch::before{border-radius:30px}
   .hsearch__field{width:100%}
   .hsearch__field svg{left:20px}
   .hsearch input{padding:0 16px 0 50px;min-height:52px}
   .hsearch button{width:100%;min-height:52px}
+}
+
+/* ============================================================
+   Page entrance, every page except the home page (body.pg-enter).
+   Pure CSS with animation-fill-mode both, so nothing is ever
+   gated behind JS: if scripts fail the page still paints.
+   ============================================================ */
+@keyframes pgRise{
+  from{opacity:0;transform:translateY(18px);clip-path:inset(105% -8% -30% -8%)}
+  to{opacity:1;transform:translateY(0);clip-path:inset(-30% -8% -30% -8%)}
+}
+@keyframes pgLift{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes pgWipe{
+  from{clip-path:inset(0 0 100% 0)}
+  to{clip-path:inset(0 0 0 0)}
+}
+@keyframes pgSettle{
+  from{transform:scale(1.075)}
+  to{transform:scale(1)}
+}
+@keyframes pgFade{from{opacity:0}to{opacity:1}}
+@keyframes hsOpen{
+  from{clip-path:inset(0 100% 0 0 round 999px)}
+  to{clip-path:inset(0 0 0 0 round 999px)}
+}
+@keyframes hsField{
+  from{max-width:0%}
+  to{max-width:100%}
+}
+
+@media (prefers-reduced-motion: no-preference){
+  .pg-enter .header{animation:pgFade .9s ease both}
+
+  /* photo heroes: the image unveils, then the words rise */
+  .pg-enter .phero__media{animation:pgWipe 1.05s var(--ease) both}
+  .pg-enter .phero__media img{animation:pgSettle 2.2s var(--ease) both;will-change:transform}
+  .pg-enter .phero__body > *{animation:pgRise 1s var(--ease) both}
+  .pg-enter .phero__body > *:nth-child(1){animation-delay:.42s}
+  .pg-enter .phero__body > *:nth-child(2){animation-delay:.52s}
+  .pg-enter .phero__body > *:nth-child(3){animation-delay:.62s}
+  .pg-enter .phero__body > *:nth-child(n+4){animation-delay:.72s}
+
+  /* pages that open on type instead of a photo */
+  .pg-enter main > section:first-of-type .sec-head > *{animation:pgRise 1s var(--ease) both}
+  .pg-enter main > section:first-of-type .sec-head > *:nth-child(1){animation-delay:.12s}
+  .pg-enter main > section:first-of-type .sec-head > *:nth-child(2){animation-delay:.22s}
+  .pg-enter main > section:first-of-type .sec-head > *:nth-child(3){animation-delay:.32s}
+  .pg-enter main > section:first-of-type .sec-head > *:nth-child(n+4){animation-delay:.42s}
+
+  /* the first interactive block on the page */
+  /* The Search button starts flush left and slides right, opening the bar
+     behind it. The outline's reveal edge is always inside the button's own
+     width, so the wipe is invisible: it reads as the button dragging it open. */
+  .pg-enter .hsearch::before{animation:hsOpen 1.75s var(--ease-glide) .34s both}
+  .pg-enter .hsearch__field{animation:hsField 1.75s var(--ease-glide) .34s both}
+  .pg-enter .hsearch__field > *{animation:pgFade .55s ease 1.68s both}
+  .pg-enter .hsearch button{animation:pgFade .4s ease .36s both}
+  .pg-enter .filters--center{animation:pgLift 1s var(--ease) .54s both}
+  .pg-enter .result-count{animation:pgLift 1s var(--ease) .62s both}
+  .pg-enter main > section:first-of-type .calc{animation:pgLift 1s var(--ease) .44s both}
+}
+
+/* Mobile stacks the search bar, so it gets the plain lift, not the slide.
+   This has to sit after the entrance block to win on source order. */
+@media (max-width:620px){
+  .pg-enter .hsearch::before,
+  .pg-enter .hsearch__field,
+  .pg-enter .hsearch__field > *,
+  .pg-enter .hsearch button{animation:none}
+  .pg-enter .hsearch{animation:pgLift 1s var(--ease) .44s both}
 }

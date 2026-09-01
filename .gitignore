@@ -4,3 +4,6 @@ node_modules/
 .env
 .env.local
 *.log
+
+# scratch: source reels, contact sheets, encode staging (not for the repo)
+_work/
