@@ -132,9 +132,12 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:400;line-height:1.12;let
 .header__logo{height:16px;width:auto}
 .header__logo--light{display:none}
 .header__agent{
-  font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-weight:600;text-transform:uppercase;
   white-space:nowrap;border-left:1px solid var(--line);padding-left:16px;color:var(--ink);
 }
+.hb__pre,.hb__sub{font-size:.5rem;font-weight:500;letter-spacing:.34em;text-indent:.34em;line-height:1}
+.hb__main{font-size:.8125rem;font-weight:700;letter-spacing:.16em;text-indent:.16em;line-height:1}
 .nav{display:flex;align-items:center;gap:clamp(14px,2vw,32px);margin-left:auto}
 .nav a{
   font-size:.75rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
@@ -292,10 +295,26 @@ html.menu-retract .menu-btn span:nth-child(3){transform:translateY(-6.5px) rotat
     linear-gradient(180deg, rgba(21,23,26,.42) 0%, rgba(21,23,26,.20) 40%, rgba(21,23,26,.40) 100%),
     rgba(21,23,26,.16);
 }
-.hero__body{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(18px,3vh,30px);padding-block:calc(var(--headerH) + 20px) 40px}
+.hero__body{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(40px,8vh,96px);padding-block:calc(var(--headerH) + 20px) 40px}
 .hero h1{
   font-size:clamp(2.6rem,7.4vw,6.4rem);line-height:1.02;letter-spacing:.035em;
   color:var(--on-bed);
+}
+.mark{display:flex;flex-direction:column;align-items:center;text-align:center;font-family:var(--font-sans)}
+.mark__pre{
+  font-size:clamp(.7rem,1.05vw,.85rem);font-weight:500;
+  letter-spacing:.42em;text-transform:uppercase;text-indent:.42em;
+  line-height:1;margin-bottom:clamp(10px,1.6vh,18px);
+}
+.mark__main{
+  display:block;font-family:var(--font-sans);font-weight:700;
+  font-size:clamp(1.9rem,5.6vw,4.6rem);letter-spacing:.09em;text-indent:.09em;
+  text-transform:uppercase;line-height:1;
+}
+.mark__sub{
+  font-size:clamp(.72rem,1.15vw,.95rem);font-weight:500;
+  letter-spacing:.46em;text-transform:uppercase;text-indent:.46em;
+  line-height:1;margin-top:clamp(12px,1.9vh,20px);
 }
 .hero__tag{font-size:clamp(.75rem,1.1vw,.9rem);font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--on-bed)}
 .hero__vidbtn{

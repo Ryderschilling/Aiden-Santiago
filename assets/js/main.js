@@ -455,7 +455,14 @@
     };
     if ('IntersectionObserver' in window) {
       var cio = new IntersectionObserver(function (en) {
-        en.forEach(function (e) { if (e.isIntersecting) { runCount(e.target); cio.unobserve(e.target); } });
+        en.forEach(function (e) {
+          if (e.isIntersecting) {
+            runCount(e.target);
+            if (!e.target._countTimer) {
+              e.target._countTimer = setInterval(function () { runCount(e.target); }, 7000);
+            }
+          }
+        });
       }, { threshold: 0.55 });
       counters.forEach(function (el) { cio.observe(el); });
     } else { counters.forEach(runCount); }
@@ -625,6 +632,15 @@
       rio.observe(rail);
     }
     if (reduced) rSetPaused(true);
+    /* Scroll rail so the middle card is centered on load */
+    (function () {
+      var mid = rcards[Math.floor((rcards.length - 1) / 2)];
+      if (!mid) return;
+      var railW = rail.getBoundingClientRect().width;
+      var cardW = mid.offsetWidth;
+      var cardLeft = mid.offsetLeft;
+      rail.scrollLeft = cardLeft - (railW / 2) + (cardW / 2);
+    })();
     rFindCentre();
     window.addEventListener('resize', rFindCentre);
   }
